@@ -1,0 +1,147 @@
+plugins {
+    id 'com.github.blindpirate.gogradle' version '0.11.4'
+    id "de.undercouch.download" version "4.0.4"
+}
+
+repositories{
+    mavenCentral()
+     jcenter()
+}
+
+configurations {
+    ftpAntTask
+    sshAntTask
+    sshexecAntTask
+}
+
+dependencies {
+    ftpAntTask("org.apache.ant:ant-commons-net:1.9.6") {
+        module("commons-net:commons-net:1.4.1") {
+            dependencies "oro:oro:2.0.8:jar"
+        }
+    }
+    sshAntTask 'org.apache.ant:ant-jsch:1.7.1', 'jsch:jsch:0.1.29'
+    sshexecAntTask 'org.apache.ant:ant-jsch:1.7.0'
+}
+
+task downloadAuthProperties(type: Download) {
+    src 'http://posdownloads/pos/downloads/Admin/auth.properties'
+    dest buildDir
+}
+
+def readFtpPasswordFromProperties() {
+    def props = new Properties()
+    props.load(new FileInputStream("/${buildDir}/auth.properties"))
+
+    props.getProperty("login.auth")
+}
+
+
+
+task uploadArtifacts(dependsOn: 'downloadAuthProperties') {
+    doLast {
+
+
+        def buildPath = "./output/"
+        def branchName = 'master'
+
+if (project.hasProperty('branchName')) {
+    branchName = project.property('branchName')
+}
+            println("branch name: $branchName")
+
+        ext.ftpPassword = readFtpPasswordFromProperties()
+
+        ant {
+            taskdef(name: 'ftp',
+                    classname: 'org.apache.tools.ant.taskdefs.optional.net.FTP',
+                    classpath: configurations.ftpAntTask.asPath)
+
+            taskdef(
+                    name: 'scp',
+                    classname: 'org.apache.tools.ant.taskdefs.optional.ssh.Scp',
+                    classpath: configurations.sshAntTask.asPath)
+
+            taskdef(name: 'sshexec',
+                    classname: 'org.apache.tools.ant.taskdefs.optional.ssh.SSHExec',
+                    classpath: configurations.sshexecAntTask.asPath)
+
+
+            def dailyFolderName = "Daily/${branchName}/"
+            def dateForlder = new Date().format('yyyy-MM-dd')
+            // (System.getenv('env') == "prod") ? "Release/" + parsedJson.appVersion :
+            folderName =   dailyFolderName + dateForlder
+            def uploadDirectory = "/home/web/html/pos/downloads/ServQuick_Peripherals/${folderName}"
+            def server = "posdownloads"
+
+            println("Uploading to server ${server} at location ${uploadDirectory}")
+
+            ftp(action: "mkdir", server: server, userid: "web", password: ftpPassword, remoteDir: uploadDirectory) {
+            }
+
+            ftp(server: server, userid: "web", password: ftpPassword, remoteDir: uploadDirectory, "newer": "no", "binary": "yes") {
+                fileset(dir: "${buildPath}") {
+                    include(name: "ServQuick_Peripherals.exe")
+                }
+            }
+
+            // if(System.getenv('env') == "prod" && false){
+            //     def releaseDirectory = "/home/rdload/downloads/GftGateway/${folderName}"
+            //     server = "download.gofrugal.com"
+            //     println("Uploading to server ${server} at location ${releaseDirectory}")
+
+            //     ant.sshexec(host: server, username: "rdload", keyfile: "/var/go/.ssh/id_rsa",
+            //             verbose: "true", trust: "true",
+            //             command: "mkdir -p ${releaseDirectory}") {
+            //     }
+
+            //     ant.scp(
+            //             todir: "rdload@${server}:${releaseDirectory}",
+            //             keyfile: "/var/go/.ssh/id_rsa",
+            //             verbose: "true",
+            //             passphrase: '',
+            //             trust: "true") {
+            //         fileset(dir: "${buildPath}") {
+            //             include(name: binaryFiles[0])
+            //             include(name: binaryFiles[1])
+            //         }
+            //     }
+            // }
+
+            println("Upload complete !!!")
+        }
+    }
+}
+
+
+
+
+golang {
+packagePath = 'gofrugalqsr/peripherals'
+}
+
+
+task resolveBuildDependencies(overwrite:true){
+//Default implementation overwritten to download deps from go.mod file
+exec {
+commandLine 'go','mod','vendor'
+    }
+}
+
+dependencies {
+    golang {
+        build('name':'github.com/gorilla/websocket','commit':'c3e18be99d19e6b3e8f1559eea2c161a665c4b6b')
+        build('name':'github.com/natefinch/lumberjack','commit':'a96e63847dc3c67d17befa69c303767e2f84e54f')
+        build('name':'go.bug.st/serial','commit':'6a673bf917a61cbd72b5ccb6c9e1f4cea39684f4')
+        build('name':'gopkg.in/yaml.v2','commit':'53403b58ad1b561927d19068c655246f2db79d48')
+    }
+}
+
+goBuild() {
+    // Cross-compile output
+    targetPlatform = ['windows-amd64', 'linux-amd64', 'linux-386','windows-386','darwin-amd64','darwin-386']
+    // Output is passed as a param as we are building only peripheralaccess now,
+    //TODO to support module wise build
+     go 'build  -o output/qsrperipherals_${GOOS}_${GOARCH}${GOEXE} gofrugalqsr/peripherals/peripheralaccess'
+}
+

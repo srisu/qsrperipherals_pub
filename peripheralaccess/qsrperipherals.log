@@ -1,0 +1,64 @@
+2020/03/10 12:07:49 http server started on port 54749
+2020/03/10 12:07:59 Weighingscale
+2020/03/10 12:07:59 READ
+2020/03/10 12:07:59 
+2020/03/10 12:07:59 device type is%!(EXTRA string=Weighingscale)
+2020/03/10 12:07:59 inside getdatafromsacle
+2020/03/10 12:09:54 http server started on port 54749
+2020/03/10 12:09:59 Weighingscale
+2020/03/10 12:09:59 READ
+2020/03/10 12:09:59 
+2020/03/10 12:09:59 device type is%!(EXTRA string=Weighingscale)
+2020/03/10 12:09:59 inside getdatafromsacle
+2020/03/10 12:13:03 http server started on port 54749
+2020/03/10 12:13:07 Weighingscale
+2020/03/10 12:13:07 READ
+2020/03/10 12:13:07 
+2020/03/10 12:13:07 device type is%!(EXTRA string=Weighingscale)
+2020/03/10 12:13:07 inside getdatafromsacle
+2020/03/10 12:13:07 no such file or directory
+2020/03/10 12:13:07 Error reading data from device no such file or directory
+2020/03/10 12:14:46 http server started on port 54749
+2020/03/10 12:14:51 Weighingscale
+2020/03/10 12:14:51 READ
+2020/03/10 12:14:51 
+2020/03/10 12:14:51 device type is%!(EXTRA string=Weighingscale)
+2020/03/10 12:14:51 inside getdatafromsacle
+2020/03/10 12:14:51 no such file or directory
+2020/03/10 12:14:51 Error reading data from device no such file or directory
+2020/03/10 12:45:57 Weighingscale
+2020/03/10 12:45:57 READ
+2020/03/10 12:45:57 
+2020/03/10 12:45:57 device type is%!(EXTRA string=Weighingscale)
+2020/03/10 12:45:57 inside getdatafromsacle
+2020/03/10 12:45:57 
+#+000.210  kg$205
+2020/03/10 12:45:57   kg
+2020/03/10 12:45:57 <nil>
+2020/03/10 15:10:03 Exit command received. Exiting...
+2020/03/10 15:10:03 Received signal type :  terminated
+2020/03/11 11:47:39 http server started on port 54749
+2020/03/11 11:48:15 Exit command received. Exiting...
+2020/03/11 11:48:15 Received signal type :  interrupt
+2020/03/11 11:49:42 http server started on port 54749
+2020/03/11 14:39:45 http server started on port 54749
+2020/03/11 14:41:30 Exit command received. Exiting...
+2020/03/11 14:41:30 Received signal type :  interrupt
+2020/03/11 14:41:34 http server started on port 54749
+2020/03/11 14:42:13 
+2020/03/11 14:42:13 
+2020/03/11 14:42:13 
+2020/03/11 14:42:13 device type is%!(EXTRA string=)
+2020/03/11 14:42:13 Error while getting devicefactory : Wrong Device type passed
+2020/03/11 14:42:49 Exit command received. Exiting...
+2020/03/11 14:42:49 Received signal type :  interrupt
+2020/03/11 14:44:30 http server started on port 54749
+2020/03/11 14:44:34 Exit command received. Exiting...
+2020/03/11 14:44:34 Received signal type :  interrupt
+2020/03/11 14:44:41 http server started on port 54749
+2020/03/11 15:03:46 inside my main
+2020/03/11 15:03:46 http server started on port 54749
+2020/03/11 15:21:03 http server started on port 54749
+2020/03/11 15:23:48 http server started on port 54749
+2020/03/11 15:23:53 Killed the process [18240]
+2020/03/12 17:30:20 http server started on port 54749

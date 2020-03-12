@@ -1,0 +1,15 @@
+configs:
+  weighingscale:
+    port: /dev/ttyUSB0
+    baud: 9600
+    parity: 0
+    dataBits: 8
+    stopBits: 0
+    position:
+      start: 2
+      length: 7
+      prefix:
+      suffix:
+  poledisplay:
+    port: COM6
+    baud: 9600
