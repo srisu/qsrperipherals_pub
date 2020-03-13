@@ -142,6 +142,7 @@ goBuild() {
     targetPlatform = ['windows-amd64', 'linux-amd64', 'linux-386','windows-386','darwin-amd64','darwin-386']
     // Output is passed as a param as we are building only peripheralaccess now,
     //TODO to support module wise build
-     go 'build  -o output/qsrperipherals_${GOOS}_${GOARCH}${GOEXE} gofrugalqsr/peripherals/peripheralaccess'
+     go 'build  -o output/qsrperipherals_${GOOS}_${GOARCH}${GOEXE} gofrugalqsr/peripherals/peripheralaccess -ldflags -H=windowsgui'
+     //https://stackoverflow.com/questions/36727740/how-to-hide-console-window-of-a-go-program-on-windows
 }
 
